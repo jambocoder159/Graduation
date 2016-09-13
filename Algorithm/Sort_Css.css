@@ -1,0 +1,42 @@
+html,body {
+	height: 100% ;
+}
+span {
+	color: red;
+}
+.center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100% ;
+}
+.center_container {
+	width: 50% ;
+	border:3px dotted blue;
+	height: 50%;
+}
+
+.input_container {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	border-bottom:1px solid blue;
+	width: 100% ;
+	height: 15%;
+}
+
+.display {
+	width: 100%;
+	height: 85% ;
+}
+.selection {
+	overflow: auto;		
+}
+.frame {
+	margin-top: 1% ;
+}
+#name{
+	display: none;
+	margin-top: 1% ;
+}
+
