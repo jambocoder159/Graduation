@@ -1,0 +1,11 @@
+.flexCenter {
+	display: flex;
+	justify-content: center;
+	align-items:center;
+}
+.titleName {
+	color: blue ;
+	font-size: 50px ;
+	margin-bottom: 5% ;
+	margin-top: 3% ;
+}
