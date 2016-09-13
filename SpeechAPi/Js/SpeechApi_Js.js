@@ -69,7 +69,7 @@ if (!('webkitSpeechRecognition' in window)) {  // 如果找不到 window.webkitS
 function StrToHandle_talk(string) {
    var form = document.createElement("form");
       form.setAttribute("method","POST");
-      form.setAttribute("action","Handle/SpeedApi_handle.php");
+      form.setAttribute("action","Handle/SpeechApi_handle.php");
         var str_input = document.createElement("input");
           str_input.setAttribute("type","hidden");
           str_input.setAttribute("name","str_input");
@@ -86,7 +86,7 @@ function StrToHandle_text() {
   var strinput = document.getElementById('str').value ;
    var form = document.createElement("form");
       form.setAttribute("method","POST");
-      form.setAttribute("action","Handle/SpeedApi_handle.php");
+      form.setAttribute("action","Handle/SpeechApi_handle.php");
         var str_input = document.createElement("input");
           str_input.setAttribute("type","hidden");
           str_input.setAttribute("name","str_input");

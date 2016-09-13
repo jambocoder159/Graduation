@@ -124,7 +124,7 @@ echo $da->format('Y-m-d H:i:s').'<br>' ;
 
 
 //送回結果給首頁------------------------------------------------------------------
-echo '<form name="auto" action="../SpeedApi.php" method="POST">' ;
+echo '<form name="auto" action="../SpeechApi.php" method="POST">' ;
     echo '<input type="hidden" name="str_input" value="'.$str_input.'"/>' ;
     echo '<input type="hidden" name="str_output" value="'.$str_output.'"/>' ;
     echo '<input style="display:none;" type="submit" value="submit"/>';

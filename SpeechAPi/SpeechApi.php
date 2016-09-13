@@ -10,8 +10,8 @@
 <head>
 <title>SpeedApi</title>
 <meta charset="utf-8" />
-<link rel="stylesheet" type="text/css" href="Css/SpeedApi_Css.css">
-<script type="text/javascript" charset="UTF-8" src="Js/SpeedApi_Js.js"></script>
+<link rel="stylesheet" type="text/css" href="Css/SpeechApi_Css.css">
+<script type="text/javascript" charset="UTF-8" src="Js/SpeechApi_Js.js"></script>
 </head>
 <body>
 	<div class="flexCenter">
