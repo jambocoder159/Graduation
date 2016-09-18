@@ -85,8 +85,9 @@ function swap(items, firstIndex, secondIndex){
 }
 //---------------------------------------------------
 
-var css_num = 0 ;// 讓網頁只執行一次匯入CSS
-
+////////////////////////////////////////////////////////////////////////////
+///MAIN////
+///////////
 function Sort(){
   for (var i = 0; i <5; i++) {
     cur_selection[i] = null ;
@@ -100,6 +101,7 @@ function Sort(){
   if(document.getElementById("Insertion").checked == true)insertionSort();
   drawChart();
 }
+/////////////////////////////////////////////////////////////////////////////
 
 //selectionSort===================================================
 function selectionSort(){
