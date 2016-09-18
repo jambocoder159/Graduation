@@ -1,7 +1,10 @@
 var cur_selection = new Array(5) ;
 var cur_bubble = new Array(5) ;
 var cur_insertion = new Array(5) ;
-var once_plus = 3000 ;
+var once_plus ; 
+window.onload = function(){   // 載入時自動執行
+     once_plus = document.getElementById("every").value ;
+}
 //google chart--------------------------------------------------------------------
  google.charts.load('current', {'packages':['line']});
       google.charts.setOnLoadCallback(drawChart);
@@ -14,7 +17,7 @@ var once_plus = 3000 ;
         data.addColumn('number', 'Insertion Sort');
         data.addRows(5);
 
-        var size = 1000 ;
+        var size = 0 ;
         for(var i=0; i<5; i++){
           data.setValue(i,0,size);
           data.setValue(i,1,cur_selection[i]);

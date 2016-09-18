@@ -14,10 +14,13 @@
 				<div>
 					<div class="text_container">
 						<div>
-							<span>範圍 : </span><input type="text" id="range" >
+							<span>範圍 : </span><input type="text" placeholder="亂數的範圍" id="range" >
 						</div>
 						<div>
-							<span>數量 : </span><input type="text" id="num" >
+							<span>數量 : </span><input type="text" placeholder="初始數量" id="num" >
+						</div>
+						<div>
+							<span>每次加多少 : </span><input type="text" max="10000" value="3000" id="every" >
 						</div>
 						<div>
 							<input type="button" name="" value="開始" onclick="Sort()">
@@ -25,8 +28,8 @@
 					</div>
 					<div>
 						<input type="checkbox" id="Selection"><label>Selection sort</label>
-						<input type="checkbox" id="Insertion"><label>Insertion sort</label>
 						<input type="checkbox" id="Bubble"><label>Bubble sort</label>
+						<input type="checkbox" id="Insertion"><label>Insertion sort</label>
 						<input type="checkbox" id="Radix"><label>Radix sort</label>
 						<input type="checkbox" id="Heap"><label>Heap sort</label>
 						<input type="checkbox" id="Merge"><label>Merge sort</label><br>
