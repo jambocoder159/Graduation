@@ -22,6 +22,16 @@
 			<div>
 					<div>
 						<div class="flexCenter" style="width:968px">
+							
+							<form action="Handle/File_to_Comparison.php" method="post" enctype="multipart/form-data">
+								<label>輸入檔</label><input type="file" name="input_file">
+								<input type="submit" value="送出">
+							</form>
+
+						</div>
+					</div>
+					<div>
+						<div class="flexCenter" style="width:968px">
 							<input type="text" id="str" style="width:900px">
 							<input type="button" value="送出文字" onclick="StrToHandle_text()">
 						</div>
