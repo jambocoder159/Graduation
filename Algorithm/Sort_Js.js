@@ -2,9 +2,9 @@ var cur_selection = new Array(5) ;
 var cur_bubble = new Array(5) ;
 var cur_insertion = new Array(5) ;
 var once_plus ; 
-window.onload = function(){   // 載入時自動執行
-     once_plus = document.getElementById("every").value ;
-}
+var size ;
+var wi = (screen.availWidth/2) ;
+var hi = (screen.availHeight*(0.93)*(0.78)) ;
 //google chart--------------------------------------------------------------------
  google.charts.load('current', {'packages':['line']});
       google.charts.setOnLoadCallback(drawChart);
@@ -17,13 +17,13 @@ window.onload = function(){   // 載入時自動執行
         data.addColumn('number', 'Insertion Sort');
         data.addRows(5);
 
-        var size = 0 ;
+        
         for(var i=0; i<5; i++){
           data.setValue(i,0,size);
           data.setValue(i,1,cur_selection[i]);
           data.setValue(i,2,cur_bubble[i]);
           data.setValue(i,3,cur_insertion[i]);
-          size += parseInt(once_plus) ;
+          size = size + parseInt(once_plus) ;
         }
        
 
@@ -31,8 +31,8 @@ window.onload = function(){   // 載入時自動執行
         chart: {
           title: 'CPU Times',
         },
-        width: 900,
-        height: 500,
+        width: wi,
+        height: hi,
         
       };
 
@@ -46,7 +46,7 @@ window.onload = function(){   // 載入時自動執行
 function add_css(frame,name) {
     var css = document.createElement("style");
         css.type = "text/css";
-        css.innerHTML = "#"+frame+" { border:1px dotted red; margin-top:1%;display:block; overflow: auto;  } ";
+        css.innerHTML = "#"+frame+" { border:1px solid #D4D4D4; margin-top:1%;display:block; overflow: auto;  } ";
         document.body.appendChild(css);        
 }
 function remove_css(frame1,frame2,frame3) {
@@ -92,6 +92,9 @@ function swap(items, firstIndex, secondIndex){
 ///MAIN////
 ///////////
 function Sort(){
+  var checked_sure = false ; //判斷有沒有選擇check box 
+  once_plus = document.getElementById("every").value ;
+  size = parseInt(document.getElementById("num").value) ;
   for (var i = 0; i <5; i++) {
     cur_selection[i] = null ;
     cur_bubble[i] = null ;
@@ -99,10 +102,12 @@ function Sort(){
   }
     
   remove_css("Selection_frame","Bubble_frame","Insertion_frame");
-  if(document.getElementById("Selection").checked == true)selectionSort();
-  if(document.getElementById("Bubble").checked == true)bubbleSort();
-  if(document.getElementById("Insertion").checked == true)insertionSort();
-  drawChart();
+  if(document.getElementById("Selection").checked == true){selectionSort();checked_sure = true;}
+  if(document.getElementById("Bubble").checked == true){bubbleSort();checked_sure = true ;}
+  if(document.getElementById("Insertion").checked == true){insertionSort();checked_sure = true;}
+
+  if(checked_sure == true)drawChart();
+  else window.alert("請至少勾選一項sort的方法");
 }
 /////////////////////////////////////////////////////////////////////////////
 
