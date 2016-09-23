@@ -21,7 +21,7 @@
 							<span>範圍 : </span><input type="text" placeholder="亂數的範圍" id="range" value="10000" >
 						</div>
 						<div>
-							<span>數量 : </span><input type="text" placeholder="初始數量" id="num" value="3000" >
+							<span>起始數量 : </span><input type="text" placeholder="初始數量" id="num" value="3000" >
 						</div>
 						<div>
 							<span>每次加多少 : </span><input type="text" max="10000" value="2000" id="every" >
