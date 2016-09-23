@@ -21,7 +21,7 @@
 							<span>範圍 : </span><input type="text" placeholder="亂數的範圍" id="range" value="10000" >
 						</div>
 						<div>
-							<span>數量 : </span><input type="text" placeholder="初始數量" id="num" value="5000" >
+							<span>數量 : </span><input type="text" placeholder="初始數量" id="num" value="3000" >
 						</div>
 						<div>
 							<span>每次加多少 : </span><input type="text" max="10000" value="2000" id="every" >
@@ -70,6 +70,13 @@
 							<div id="insertion_sort_times"></div>
 						<div id="Insertion_name" class="RN">Random Numbers : </div>
 							<div id="insertion_print"></div>
+					</div>
+					<div id="Radix_frame" class="frame" >
+						<div id="Radix_name" style="color:#FF3B3B;">Radix Sort </div>
+						<div id="Radix_name" class="RN">Sort Times : </div>
+							<div id="radix_sort_times"></div>
+						<div id="Radix_name" class="RN">Random Numbers : </div>
+							<div id="radix_print"></div>
 					</div>
 				</div>
 			</div>

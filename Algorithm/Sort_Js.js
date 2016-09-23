@@ -1,6 +1,7 @@
 var cur_selection = new Array(5) ;
 var cur_bubble = new Array(5) ;
 var cur_insertion = new Array(5) ;
+var cur_radix = new Array(5) ;
 var once_plus ; 
 var size ;
 var wi = (screen.availWidth/2) ;
@@ -15,6 +16,7 @@ var hi = (screen.availHeight*(0.93)*(0.78)) ;
         data.addColumn('number', 'Selection Sort');
         data.addColumn('number', 'Bubble Sort');
         data.addColumn('number', 'Insertion Sort');
+        data.addColumn('number', 'Radix Sort');
         data.addRows(5);
 
         
@@ -23,6 +25,7 @@ var hi = (screen.availHeight*(0.93)*(0.78)) ;
           data.setValue(i,1,cur_selection[i]);
           data.setValue(i,2,cur_bubble[i]);
           data.setValue(i,3,cur_insertion[i]);
+          data.setValue(i,4,cur_radix[i]);
           size = size + parseInt(once_plus) ;
         }
        
@@ -49,10 +52,10 @@ function add_css(frame,name) {
         css.innerHTML = "#"+frame+" { border:1px solid #D4D4D4; margin-top:1%;display:block; overflow: auto;  } ";
         document.body.appendChild(css);        
 }
-function remove_css(frame1,frame2,frame3) {
+function remove_css(frame1,frame2,frame3,frame4) {
     var css = document.createElement("style");
         css.type = "text/css";
-        css.innerHTML = "#"+frame1+","+"#"+frame2+","+"#"+frame3+" { display:none; }";
+        css.innerHTML = "#"+frame1+","+"#"+frame2+","+"#"+frame3+","+"#"+frame4+" { display:none; }";
         document.body.appendChild(css);        
 }
 //===================================================================================================================
@@ -101,10 +104,11 @@ function Sort(){
     cur_insertion[i] = null ;
   }
     
-  remove_css("Selection_frame","Bubble_frame","Insertion_frame");
+  remove_css("Selection_frame","Bubble_frame","Insertion_frame","Radix_frame");
   if(document.getElementById("Selection").checked == true){selectionSort();checked_sure = true;}
   if(document.getElementById("Bubble").checked == true){bubbleSort();checked_sure = true ;}
   if(document.getElementById("Insertion").checked == true){insertionSort();checked_sure = true;}
+  if(document.getElementById("Radix").checked == true){radixSort();checked_sure = true;}
 
   if(checked_sure == true)drawChart();
   else window.alert("請至少勾選一項sort的方法");
@@ -231,3 +235,65 @@ function insertionSort(){
   document.getElementById("insertion_sort_times").innerHTML = cur_insertion[0]+","+cur_insertion[1]+","+cur_insertion[2]+","+cur_insertion[3]+","+cur_insertion[4]+","+ "sec" ; //總測試時間 
 }
 //================================================================================
+
+//Radix sort-------------------------------------------------------------------------
+
+var initArray = function(buckets, count){
+    for(var i = 0; i < buckets.length; i++){
+        buckets[i]  = new Array(buckets.length);
+        count[i] = 0;
+    }
+}
+
+function radixSort(){
+    var once = 0 ;
+
+    for(var u=0; u<5; u++){
+
+      items = ranges_nums(once);
+      add_css("Radix_frame","Radix_name");
+
+      var start = 0; 
+      var end = 0;
+
+      start = new Date().getTime(); //測試程式開始時間
+
+      var MAX = parseInt(document.getElementById("num").value)-1 ;                         // 數的上限
+      var dataIndex = 0, radix = 1;           // radix = 1, 10, 100,...
+      var buckets = new Array(items.length),   // 桶子 
+          count = new Array(items.length);     // 記錄每個桶子裝了幾個數值
+      initArray( buckets, count );            // 初始化桶子
+
+      while(radix < MAX){                    // 若基數沒有超出上限
+        // 分配
+          for(var i = 0; i < items.length; i++){
+              var LSD = parseInt((items[i]/radix)) % 10;    // 計算LSD(=那一個桶子)
+              buckets[LSD][count[LSD]] = items[i];          // 將資料放到對應的桶子
+              count[LSD]++;
+          }
+          radix *= 10;                                     // 更新基底：1->10, 10->100
+      
+          // 合併
+          dataIndex = 0;
+          for(var i = 0; i < items.length; i++){         // 將桶子內的資料合併
+              if(count[i] != 0){                        // 如果桶子內有資料
+                  for(var j =0 ; j < count[i]; j++){
+                      items[dataIndex++] = buckets[i][j];
+                  }
+              }
+              count[i] = 0;                             // 歸0，以便下一回合使用
+          }   
+      }
+      end = new Date().getTime();//測試程式結束時間
+      once += parseInt(once_plus) ;
+
+      cur_radix[u] = ((end - start) / 1000);
+
+    }
+
+    document.getElementById("radix_print").innerHTML = items;
+    document.getElementById("radix_sort_times").innerHTML = cur_radix[0]+","+cur_radix[1]+","+cur_radix[2]+","+cur_radix[3]+","+cur_radix[4]+","+ "sec" ; //總測試時間 
+}
+
+
+//-----------------------------------------------------------------------------------
