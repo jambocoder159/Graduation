@@ -38,11 +38,8 @@ span {
 	justify-content: space-around;
 	align-items: center;
 	width: 100% ;
-<<<<<<< HEAD
-	height: 30% ;
-=======
-	height: 40%;
->>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
+	height: 25% ;
+ 
 }
 .text_container {
 	display: flex;
@@ -57,11 +54,7 @@ span {
 
 .display {
 	width: 100%;
-<<<<<<< HEAD
-	height: 65% ;
-=======
-	height: 58% ;
->>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
+	height: 70% ;
 	overflow: auto;
 }
 .frame {
@@ -75,20 +68,13 @@ span {
 	width: 80% ;
 	border-top: 1px solid #D4D4D4 ;
 }
-<<<<<<< HEAD
+
 .button {
-=======
-.start_button {
->>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
 	background-color: white;
 	color: #666666;
 	cursor: pointer;
 }
-<<<<<<< HEAD
 .button:hover {
-=======
-.start_button:hover {
->>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
 	background-color: #6E6EFF ;
 	color:white;
 }

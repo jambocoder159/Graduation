@@ -2,17 +2,11 @@ var cur_selection = new Array(5) ;
 var cur_bubble = new Array(5) ;
 var cur_insertion = new Array(5) ;
 var cur_radix = new Array(5) ;
-<<<<<<< HEAD
 var cur_heap = new Array(5) ;
 var once_plus ; 
 var size ;
 var wi = (screen.availWidth/2) ;
-=======
-var once_plus ; 
-var size ;
-var wi = (screen.availWidth/2) ;
-var hi = (screen.availHeight*(0.93)*(0.78)) ;
->>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
+
 //google chart--------------------------------------------------------------------
  google.charts.load('current', {'packages':['line']});
       google.charts.setOnLoadCallback(drawChart);
@@ -24,10 +18,7 @@ var hi = (screen.availHeight*(0.93)*(0.78)) ;
         data.addColumn('number', 'Bubble Sort');
         data.addColumn('number', 'Insertion Sort');
         data.addColumn('number', 'Radix Sort');
-<<<<<<< HEAD
         data.addColumn('number', 'Heap Sort');
-=======
->>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
         data.addRows(5);
 
         
@@ -37,10 +28,7 @@ var hi = (screen.availHeight*(0.93)*(0.78)) ;
           data.setValue(i,2,cur_bubble[i]);
           data.setValue(i,3,cur_insertion[i]);
           data.setValue(i,4,cur_radix[i]);
-<<<<<<< HEAD
           data.setValue(i,5,cur_heap[i]);
-=======
->>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
           size = size + parseInt(once_plus) ;
         }
        
@@ -50,11 +38,7 @@ var hi = (screen.availHeight*(0.93)*(0.78)) ;
           title: 'CPU Times',
         },
         width: wi,
-<<<<<<< HEAD
         height: 700,
-=======
-        height: hi,
->>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
         
       };
 
@@ -84,19 +68,13 @@ function add_css(frame,name) {
         css.innerHTML = "#"+frame+" { border:1px solid #D4D4D4; margin-top:1%;display:block; overflow: auto;  } ";
         document.body.appendChild(css);        
 }
-<<<<<<< HEAD
+
 function remove_css(frame1,frame2,frame3,frame4,frame5) {
     var css = document.createElement("style");
         css.type = "text/css";
         css.innerHTML = "#"+frame1+","+"#"+frame2+","+"#"+frame3+","+"#"+frame4+","+"#"+frame5+" { display:none; }";
-=======
-function remove_css(frame1,frame2,frame3,frame4) {
-    var css = document.createElement("style");
-        css.type = "text/css";
-        css.innerHTML = "#"+frame1+","+"#"+frame2+","+"#"+frame3+","+"#"+frame4+" { display:none; }";
->>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
-        document.body.appendChild(css);        
 }
+
 //===================================================================================================================
 
 //creat array contain random values-------------------------------------------
@@ -145,19 +123,13 @@ function Sort(){
     cur_heap[i] = null ;
   }
     
-<<<<<<< HEAD
   remove_css("Selection_frame","Bubble_frame","Insertion_frame","Radix_frame","Heap_frame");
-=======
-  remove_css("Selection_frame","Bubble_frame","Insertion_frame","Radix_frame");
->>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
+
   if(document.getElementById("Selection").checked == true){selectionSort();checked_sure = true;}
   if(document.getElementById("Bubble").checked == true){bubbleSort();checked_sure = true ;}
   if(document.getElementById("Insertion").checked == true){insertionSort();checked_sure = true;}
   if(document.getElementById("Radix").checked == true){radixSort();checked_sure = true;}
-<<<<<<< HEAD
   if(document.getElementById("Heap").checked == true){heapSort();checked_sure = true;}
-=======
->>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
 
   if(checked_sure == true)drawChart();
   else window.alert("請至少勾選一項sort的方法");
@@ -307,21 +279,14 @@ function radixSort(){
 
       start = new Date().getTime(); //測試程式開始時間
 
-<<<<<<< HEAD
-      var MAX = parseInt(document.getElementById("range").value)+1 ;                         // 數的上限
-=======
-      var MAX = parseInt(document.getElementById("num").value)-1 ;                         // 數的上限
->>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
+      var MAX = parseInt(document.getElementById("range").value)+1 ;            // 數的上限
       var dataIndex = 0, radix = 1;           // radix = 1, 10, 100,...
       var buckets = new Array(items.length),   // 桶子 
           count = new Array(items.length);     // 記錄每個桶子裝了幾個數值
       initArray( buckets, count );            // 初始化桶子
 
-<<<<<<< HEAD
       while(radix <= MAX){                    // 若基數沒有超出上限
-=======
-      while(radix < MAX){                    // 若基數沒有超出上限
->>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
+
         // 分配
           for(var i = 0; i < items.length; i++){
               var LSD = parseInt((items[i]/radix)) % 10;    // 計算LSD(=那一個桶子)
@@ -349,16 +314,12 @@ function radixSort(){
     }
 
     document.getElementById("radix_print").innerHTML = items;
-<<<<<<< HEAD
     document.getElementById("radix_sort_times").innerHTML = cur_radix[0]+"sec"+" "+cur_radix[1]+"sec"+" "+cur_radix[2]+"sec"+" "+cur_radix[3]+"sec"+""+cur_radix[4]+ "sec" ; //總測試時間 
-=======
-    document.getElementById("radix_sort_times").innerHTML = cur_radix[0]+","+cur_radix[1]+","+cur_radix[2]+","+cur_radix[3]+","+cur_radix[4]+","+ "sec" ; //總測試時間 
->>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
 }
 
 
 //-----------------------------------------------------------------------------------
-<<<<<<< HEAD
+
 
 //heap sort==========================================================================
 
@@ -418,5 +379,4 @@ function heapSort(){
 }
 
 //===================================================================================
-=======
->>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
+
