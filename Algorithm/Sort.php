@@ -21,7 +21,11 @@
 							<span>範圍 : </span><input type="text" placeholder="亂數的範圍" id="range" value="10000" >
 						</div>
 						<div>
+<<<<<<< HEAD
 							<span>起始數量 : </span><input type="text" placeholder="初始數量" id="num" value="0" >
+=======
+							<span>起始數量 : </span><input type="text" placeholder="初始數量" id="num" value="3000" >
+>>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
 						</div>
 						<div>
 							<span>每次加多少 : </span><input type="text" max="10000" value="2000" id="every" >
@@ -29,6 +33,7 @@
 						
 					</div>
 					<div>
+<<<<<<< HEAD
 						<input type="checkbox" name="check[]" id="Selection"><label>Selection sort</label>
 						<input type="checkbox" name="check[]" id="Bubble"><label>Bubble sort</label>
 						<input type="checkbox" name="check[]" id="Insertion"><label>Insertion sort</label><br>
@@ -42,6 +47,22 @@
 						<input type="button" class="button" name="" value="全選" onclick="allSelect()">
 						<input type="button" class="button" name="" value="取消全選" onclick="clearSelect()">
 						<input type="button" class="button" name="" value="開始計算" onclick="Sort()">
+					</div>
+					<div style="display: flex;justify-content: center;">
+						<div class="line"></div>
+=======
+						<input type="checkbox" id="Selection"><label>Selection sort</label>
+						<input type="checkbox" id="Bubble"><label>Bubble sort</label>
+						<input type="checkbox" id="Insertion"><label>Insertion sort</label><br>
+						<input type="checkbox" id="Radix"><label>Radix sort</label>
+						<input type="checkbox" id="Heap"><label>Heap sort</label>
+						<input type="checkbox" id="Merge"><label>Merge sort</label><br>
+						<input type="checkbox" id="Quick"><label>Quick sort(recursive version)</label>
+						<input type="checkbox" id="non_Quick"><label>Quick sort(non-recursive version)</label>
+>>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
+					</div>
+					<div style="display: flex;justify-content:center;margin-bottom: 1%;margin-top: 1%;">
+						<input type="button" class="start_button" name="" value="開始計算" onclick="Sort()">
 					</div>
 					<div style="display: flex;justify-content: center;">
 						<div class="line"></div>
@@ -80,6 +101,7 @@
 						<div id="Radix_name" class="RN">Random Numbers : </div>
 							<div id="radix_print"></div>
 					</div>
+<<<<<<< HEAD
 					<div id="Heap_frame" class="frame" >
 						<div id="Heap_name" style="color:#FF3B3B;">Heap Sort </div>
 						<div id="Heap_name" class="RN">Sort Times : </div>
@@ -87,6 +109,8 @@
 						<div id="Heap_name" class="RN">Random Numbers : </div>
 							<div id="heap_print"></div>
 					</div>
+=======
+>>>>>>> cf05a4565facde101f4d74e49b0d461287b0489e
 				</div>
 			</div>
 		</div>
