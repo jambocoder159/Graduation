@@ -1,10 +1,11 @@
 var cur_selection = new Array(5) ;
 var cur_bubble = new Array(5) ;
 var cur_insertion = new Array(5) ;
+var cur_radix = new Array(5) ;
+var cur_heap = new Array(5) ;
 var once_plus ; 
-window.onload = function(){   // 載入時自動執行
-     once_plus = document.getElementById("every").value ;
-}
+var size ;
+var wi = (screen.availWidth/2) ;
 //google chart--------------------------------------------------------------------
  google.charts.load('current', {'packages':['line']});
       google.charts.setOnLoadCallback(drawChart);
@@ -15,15 +16,19 @@ window.onload = function(){   // 載入時自動執行
         data.addColumn('number', 'Selection Sort');
         data.addColumn('number', 'Bubble Sort');
         data.addColumn('number', 'Insertion Sort');
+        data.addColumn('number', 'Radix Sort');
+        data.addColumn('number', 'Heap Sort');
         data.addRows(5);
 
-        var size = 0 ;
+        
         for(var i=0; i<5; i++){
           data.setValue(i,0,size);
           data.setValue(i,1,cur_selection[i]);
           data.setValue(i,2,cur_bubble[i]);
           data.setValue(i,3,cur_insertion[i]);
-          size += parseInt(once_plus) ;
+          data.setValue(i,4,cur_radix[i]);
+          data.setValue(i,5,cur_heap[i]);
+          size = size + parseInt(once_plus) ;
         }
        
 
@@ -31,8 +36,8 @@ window.onload = function(){   // 載入時自動執行
         chart: {
           title: 'CPU Times',
         },
-        width: 900,
-        height: 500,
+        width: wi,
+        height: 700,
         
       };
 
@@ -40,19 +45,32 @@ window.onload = function(){   // 載入時自動執行
 
       chart.draw(data, options);
     }
-//--------------------------------------------------------------------------------    
+//--------------------------------------------------------------------------------   
 
+function allSelect(){
+  var checkItem = document.getElementsByName('check[]');
+  for(var i=0;i<checkItem.length;i++){
+    checkItem[i].checked=true;  
+  }
+} 
+
+function clearSelect(){
+  var checkItem = document.getElementsByName('check[]');
+  for(var i=0;i<checkItem.length;i++){
+    checkItem[i].checked=false;  
+  }
+}
 //css add and remove================================================================================================
 function add_css(frame,name) {
     var css = document.createElement("style");
         css.type = "text/css";
-        css.innerHTML = "#"+frame+" { border:1px dotted red; margin-top:1%;display:block; overflow: auto;  } ";
+        css.innerHTML = "#"+frame+" { border:1px solid #D4D4D4; margin-top:1%;display:block; overflow: auto;  } ";
         document.body.appendChild(css);        
 }
-function remove_css(frame1,frame2,frame3) {
+function remove_css(frame1,frame2,frame3,frame4,frame5) {
     var css = document.createElement("style");
         css.type = "text/css";
-        css.innerHTML = "#"+frame1+","+"#"+frame2+","+"#"+frame3+" { display:none; }";
+        css.innerHTML = "#"+frame1+","+"#"+frame2+","+"#"+frame3+","+"#"+frame4+","+"#"+frame5+" { display:none; }";
         document.body.appendChild(css);        
 }
 //===================================================================================================================
@@ -92,17 +110,26 @@ function swap(items, firstIndex, secondIndex){
 ///MAIN////
 ///////////
 function Sort(){
+  var checked_sure = false ; //判斷有沒有選擇check box 
+  once_plus = document.getElementById("every").value ;
+  size = parseInt(document.getElementById("num").value) ;
   for (var i = 0; i <5; i++) {
     cur_selection[i] = null ;
     cur_bubble[i] = null ;
     cur_insertion[i] = null ;
+    cur_radix[i] = null ;
+    cur_heap[i] = null ;
   }
     
-  remove_css("Selection_frame","Bubble_frame","Insertion_frame");
-  if(document.getElementById("Selection").checked == true)selectionSort();
-  if(document.getElementById("Bubble").checked == true)bubbleSort();
-  if(document.getElementById("Insertion").checked == true)insertionSort();
-  drawChart();
+  remove_css("Selection_frame","Bubble_frame","Insertion_frame","Radix_frame","Heap_frame");
+  if(document.getElementById("Selection").checked == true){selectionSort();checked_sure = true;}
+  if(document.getElementById("Bubble").checked == true){bubbleSort();checked_sure = true ;}
+  if(document.getElementById("Insertion").checked == true){insertionSort();checked_sure = true;}
+  if(document.getElementById("Radix").checked == true){radixSort();checked_sure = true;}
+  if(document.getElementById("Heap").checked == true){heapSort();checked_sure = true;}
+
+  if(checked_sure == true)drawChart();
+  else window.alert("請至少勾選一項sort的方法");
 }
 /////////////////////////////////////////////////////////////////////////////
 
@@ -148,7 +175,7 @@ function selectionSort(){
     }
 
     document.getElementById("selection_print").innerHTML = items;
-    document.getElementById("selection_sort_times").innerHTML = cur_selection[0] +","+ cur_selection[1] +","+ cur_selection[2] +","+ cur_selection[3] +","+ cur_selection[4] + "sec" ; //總測試時間
+    document.getElementById("selection_sort_times").innerHTML = cur_selection[0]+"sec" +" "+ cur_selection[1]+"sec" +" "+ cur_selection[2]+"sec" +" "+ cur_selection[3]+"sec" +" "+ cur_selection[4] +"sec" ; //總測試時間
 
 
 }
@@ -185,7 +212,7 @@ function bubbleSort() {
       cur_bubble[u] = ((end - start) / 1000);
      }
     document.getElementById("bubble_print").innerHTML = items;
-    document.getElementById("bubble_sort_times").innerHTML = cur_bubble[0]+","+cur_bubble[1]+","+cur_bubble[2]+","+cur_bubble[3]+","+cur_bubble[4]+","+ "sec" ; //總測試時間 
+    document.getElementById("bubble_sort_times").innerHTML = cur_bubble[0]+"sec"+" "+cur_bubble[1]+"sec"+" "+cur_bubble[2]+"sec"+" "+cur_bubble[3]+"sec"+" "+cur_bubble[4]+ "sec" ; //總測試時間 
 
 }
 //-------------------------------------------------------------------
@@ -223,6 +250,127 @@ function insertionSort(){
   }
 
   document.getElementById("insertion_print").innerHTML = items;
-  document.getElementById("insertion_sort_times").innerHTML = cur_insertion[0]+","+cur_insertion[1]+","+cur_insertion[2]+","+cur_insertion[3]+","+cur_insertion[4]+","+ "sec" ; //總測試時間 
+  document.getElementById("insertion_sort_times").innerHTML = cur_insertion[0]+"sec"+" "+cur_insertion[1]+"sec"+" "+cur_insertion[2]+"sec"+" "+cur_insertion[3]+"sec"+" "+cur_insertion[4]+ "sec" ; //總測試時間 
 }
 //================================================================================
+
+//Radix sort-------------------------------------------------------------------------
+
+var initArray = function(buckets, count){
+    for(var i = 0; i < buckets.length; i++){
+        buckets[i]  = new Array(buckets.length);
+        count[i] = 0;
+    }
+}
+
+function radixSort(){
+    var once = 0 ;
+
+    for(var u=0; u<5; u++){
+
+      items = ranges_nums(once);
+      add_css("Radix_frame","Radix_name");
+
+      var start = 0; 
+      var end = 0;
+
+      start = new Date().getTime(); //測試程式開始時間
+
+      var MAX = parseInt(document.getElementById("range").value)+1 ;                         // 數的上限
+      var dataIndex = 0, radix = 1;           // radix = 1, 10, 100,...
+      var buckets = new Array(items.length),   // 桶子 
+          count = new Array(items.length);     // 記錄每個桶子裝了幾個數值
+      initArray( buckets, count );            // 初始化桶子
+
+      while(radix <= MAX){                    // 若基數沒有超出上限
+        // 分配
+          for(var i = 0; i < items.length; i++){
+              var LSD = parseInt((items[i]/radix)) % 10;    // 計算LSD(=那一個桶子)
+              buckets[LSD][count[LSD]] = items[i];          // 將資料放到對應的桶子
+              count[LSD]++;
+          }
+          radix *= 10;                                     // 更新基底：1->10, 10->100
+      
+          // 合併
+          dataIndex = 0;
+          for(var i = 0; i < items.length; i++){         // 將桶子內的資料合併
+              if(count[i] != 0){                        // 如果桶子內有資料
+                  for(var j =0 ; j < count[i]; j++){
+                      items[dataIndex++] = buckets[i][j];
+                  }
+              }
+              count[i] = 0;                             // 歸0，以便下一回合使用
+          }   
+      }
+      end = new Date().getTime();//測試程式結束時間
+      once += parseInt(once_plus) ;
+
+      cur_radix[u] = ((end - start) / 1000);
+
+    }
+
+    document.getElementById("radix_print").innerHTML = items;
+    document.getElementById("radix_sort_times").innerHTML = cur_radix[0]+"sec"+" "+cur_radix[1]+"sec"+" "+cur_radix[2]+"sec"+" "+cur_radix[3]+"sec"+""+cur_radix[4]+ "sec" ; //總測試時間 
+}
+
+
+//-----------------------------------------------------------------------------------
+
+//heap sort==========================================================================
+
+function heapify(items, root, length){
+    var leftChild = root*2 + 1;     // Root的左子元素
+    var rightChild = root*2 + 2;    // Root的右子元素
+    var maxNode = -1;
+    
+    // 找出root, leftChild, rightChild，值最大者(maNode)
+    if(leftChild < length && (items[leftChild] > items[root]))
+        maxNode = leftChild;
+    else
+        maxNode = root; 
+    if(rightChild < length && (items[rightChild] > items[maxNode]))
+        maxNode = rightChild;
+  
+    // 如果值最大者不是root，則作swap及heapify
+    if(maxNode != root){
+        swap(items, root, maxNode);
+        heapify(items, maxNode, length);
+    } 
+}
+
+function heapSort(){
+    var once = 0 ;
+
+    for(var u=0; u<5; u++){
+
+      items = ranges_nums(once);
+      add_css("Heap_frame","Heap_name");
+
+      var start = 0; 
+      var end = 0;
+
+      start = new Date().getTime(); //測試程式開始時間
+      //將數列轉換成Max Heap
+      for(var i = Math.floor( items.length/2)-1; i >= 0; i--){
+          heapify(items, i, items.length);
+      } 
+    
+      //排序
+      for(i = items.length - 1; i > 0; i--){
+          swap(items, 0, i);
+          heapify(items, 0, i);
+      }
+
+      end = new Date().getTime();//測試程式結束時間
+      once += parseInt(once_plus) ;
+
+      cur_heap[u] = ((end - start) / 1000);
+
+    }
+
+    document.getElementById("heap_print").innerHTML = items;
+    document.getElementById("heap_sort_times").innerHTML = cur_heap[0]+"sec"+" "+cur_heap[1]+"sec"+" "+cur_heap[2]+"sec"+" "+cur_heap[3]+"sec"+" "+cur_heap[4]+ "sec" ; //總測試時間 
+
+}
+
+//===================================================================================
