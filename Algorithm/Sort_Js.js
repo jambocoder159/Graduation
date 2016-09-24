@@ -73,6 +73,7 @@ function remove_css(frame1,frame2,frame3,frame4,frame5) {
     var css = document.createElement("style");
         css.type = "text/css";
         css.innerHTML = "#"+frame1+","+"#"+frame2+","+"#"+frame3+","+"#"+frame4+","+"#"+frame5+" { display:none; }";
+        document.body.appendChild(css); 
 }
 
 //===================================================================================================================
