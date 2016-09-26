@@ -87,6 +87,13 @@
 						<div id="Heap_name" class="RN">Random Numbers : </div>
 							<div id="heap_print"></div>
 					</div>
+					<div id="Merge_frame" class="frame" >
+						<div id="Merge_name" style="color:#FF3B3B;">Merge Sort </div>
+						<div id="Merge_name" class="RN">Sort Times : </div>
+							<div id="merge_sort_times"></div>
+						<div id="Merge_name" class="RN">Random Numbers : </div>
+							<div id="merge_print"></div>
+					</div>
 				</div>
 			</div>
 		</div>

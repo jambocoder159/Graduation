@@ -3,6 +3,7 @@ var cur_bubble = new Array(5) ;
 var cur_insertion = new Array(5) ;
 var cur_radix = new Array(5) ;
 var cur_heap = new Array(5) ;
+var cur_merge = new Array(5) ;
 var once_plus ; 
 var size ;
 var wi = (screen.availWidth/2) ;
@@ -19,6 +20,7 @@ var wi = (screen.availWidth/2) ;
         data.addColumn('number', 'Insertion Sort');
         data.addColumn('number', 'Radix Sort');
         data.addColumn('number', 'Heap Sort');
+        data.addColumn('number', 'Merge Sort');
         data.addRows(5);
 
         
@@ -29,6 +31,7 @@ var wi = (screen.availWidth/2) ;
           data.setValue(i,3,cur_insertion[i]);
           data.setValue(i,4,cur_radix[i]);
           data.setValue(i,5,cur_heap[i]);
+          data.setValue(i,6,cur_merge[i]);
           size = size + parseInt(once_plus) ;
         }
        
@@ -38,7 +41,7 @@ var wi = (screen.availWidth/2) ;
           title: 'CPU Times',
         },
         width: wi,
-        height: 700,
+        height: 600,
         
       };
 
@@ -69,10 +72,10 @@ function add_css(frame,name) {
         document.body.appendChild(css);        
 }
 
-function remove_css(frame1,frame2,frame3,frame4,frame5) {
+function remove_css(frame1,frame2,frame3,frame4,frame5,frame6) {
     var css = document.createElement("style");
         css.type = "text/css";
-        css.innerHTML = "#"+frame1+","+"#"+frame2+","+"#"+frame3+","+"#"+frame4+","+"#"+frame5+" { display:none; }";
+        css.innerHTML = "#"+frame1+","+"#"+frame2+","+"#"+frame3+","+"#"+frame4+","+"#"+frame5+","+"#"+frame6+" { display:none; }";
         document.body.appendChild(css); 
 }
 
@@ -122,15 +125,37 @@ function Sort(){
     cur_insertion[i] = null ;
     cur_radix[i] = null ;
     cur_heap[i] = null ;
+    cur_merge[i] = null ;
   }
     
-  remove_css("Selection_frame","Bubble_frame","Insertion_frame","Radix_frame","Heap_frame");
+  remove_css("Selection_frame","Bubble_frame","Insertion_frame","Radix_frame","Heap_frame","Merge_frame");
 
   if(document.getElementById("Selection").checked == true){selectionSort();checked_sure = true;}
   if(document.getElementById("Bubble").checked == true){bubbleSort();checked_sure = true ;}
   if(document.getElementById("Insertion").checked == true){insertionSort();checked_sure = true;}
   if(document.getElementById("Radix").checked == true){radixSort();checked_sure = true;}
   if(document.getElementById("Heap").checked == true){heapSort();checked_sure = true;}
+
+  if(document.getElementById("Merge").checked == true){
+    
+    var once = 0 ;
+    for(var u=0; u<5; u++){
+
+      items = ranges_nums(once)
+      var start = 0; 
+      var end = 0;
+      start = new Date().getTime(); //測試程式開始時間
+      var merge = mergeSort(items) ;
+      end = new Date().getTime();//測試程式結束時間
+      once += parseInt(once_plus) ;
+      cur_merge[u] = ((end - start) / 1000);
+
+      if(u==4)document.getElementById("merge_print").innerHTML = merge ;
+    }
+    document.getElementById("merge_sort_times").innerHTML = cur_merge[0]+"sec" +" "+ cur_merge[1]+"sec" +" "+ cur_merge[2]+"sec" +" "+ cur_merge[3]+"sec" +" "+ cur_merge[4] +"sec" ; //總測試時間
+
+    checked_sure = true;
+  }
 
   if(checked_sure == true)drawChart();
   else window.alert("請至少勾選一項sort的方法");
@@ -381,3 +406,47 @@ function heapSort(){
 
 //===================================================================================
 
+//Merge Sort-------------------------------------------------------------------------
+
+function merge(left, right)
+{
+    var result = [];
+ 
+    while (left.length && right.length) {
+        if (left[0] <= right[0]) {
+            result.push(left.shift());
+        } else {
+            result.push(right.shift());
+        }
+    }
+ 
+    while (left.length)
+        result.push(left.shift());
+ 
+    while (right.length)
+        result.push(right.shift());
+
+    return result;
+}
+
+function mergeSort(items){
+
+  add_css("Merge_frame","Merge_name");
+
+  for(var u=0; u<5;u++){
+    cur_merge[u] = 0 ;
+  }
+
+
+  if (items.length < 2)
+        return items;
+ 
+    var middle = parseInt(items.length / 2);
+    var left   = items.slice(0, middle);
+    var right  = items.slice(middle, items.length);
+ 
+    return merge(mergeSort(left), mergeSort(right));
+
+}
+
+//-----------------------------------------------------------------------------------
