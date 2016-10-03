@@ -137,11 +137,11 @@ function Sort(){
   if(document.getElementById("Heap").checked == true){heapSort();checked_sure = true;}
 
   if(document.getElementById("Merge").checked == true){
-    
+    add_css("Merge_frame","Merge_name");
     var once = 0 ;
     for(var u=0; u<5; u++){
 
-      items = ranges_nums(once)
+      var items = ranges_nums(once) ;
       var start = 0; 
       var end = 0;
       start = new Date().getTime(); //測試程式開始時間
@@ -150,8 +150,8 @@ function Sort(){
       once += parseInt(once_plus) ;
       cur_merge[u] = ((end - start) / 1000);
 
-      if(u==4)document.getElementById("merge_print").innerHTML = merge ;
     }
+    document.getElementById("merge_print").innerHTML = merge ;
     document.getElementById("merge_sort_times").innerHTML = cur_merge[0]+"sec" +" "+ cur_merge[1]+"sec" +" "+ cur_merge[2]+"sec" +" "+ cur_merge[3]+"sec" +" "+ cur_merge[4] +"sec" ; //總測試時間
 
     checked_sure = true;
@@ -166,11 +166,10 @@ function Sort(){
 function selectionSort(){
 
     var once = 0 ;
-
+    add_css("Selection_frame","Selection_name");
     for(var u =0; u<5; u++){
 
       items = ranges_nums(once);
-      add_css("Selection_frame","Selection_name");
       var start = 0; 
       var end = 0;
 
@@ -213,11 +212,10 @@ function selectionSort(){
 //bubbleSort---------------------------------------------------------
 function bubbleSort() {
     var once = 0 ;
-
+    add_css("Bubble_frame","Bubble_name");
     for(var u=0; u<5; u++){
 
       items = ranges_nums(once);
-      add_css("Bubble_frame","Bubble_name");
       var start = 0; 
       var end = 0;
 
@@ -249,11 +247,10 @@ function bubbleSort() {
 //Insertion sort==================================================================
 function insertionSort(){
   var once = 0 ;
-
+  add_css("Insertion_frame","Insertion_name");
   for(var u=0; u<5; u++){
 
     items = ranges_nums(once);
-    add_css("Insertion_frame","Insertion_name");
     var start = 0; 
     var end = 0;
 
@@ -294,18 +291,17 @@ var initArray = function(buckets, count){
 
 function radixSort(){
     var once = 0 ;
-
+    add_css("Radix_frame","Radix_name");
     for(var u=0; u<5; u++){
 
-      items = ranges_nums(once);
-      add_css("Radix_frame","Radix_name");
+      var items = ranges_nums(once);   
 
       var start = 0; 
       var end = 0;
 
       start = new Date().getTime(); //測試程式開始時間
 
-      var MAX = parseInt(document.getElementById("range").value)+1 ;            // 數的上限
+      var MAX = parseInt(document.getElementById("range").value) ;            // 數的上限
       var dataIndex = 0, radix = 1;           // radix = 1, 10, 100,...
       var buckets = new Array(items.length),   // 桶子 
           count = new Array(items.length);     // 記錄每個桶子裝了幾個數值
@@ -371,12 +367,10 @@ function heapify(items, root, length){
 
 function heapSort(){
     var once = 0 ;
-
+    add_css("Heap_frame","Heap_name");
     for(var u=0; u<5; u++){
 
       items = ranges_nums(once);
-      add_css("Heap_frame","Heap_name");
-
       var start = 0; 
       var end = 0;
 
@@ -431,20 +425,17 @@ function merge(left, right)
 
 function mergeSort(items){
 
-  add_css("Merge_frame","Merge_name");
+  
 
   if (items.length < 2)
         return items;
  
     var middle = parseInt(items.length / 2);
     var left   = items.slice(0, middle);
-    var right  = items.slice(middle, items.length);
+    var right  = items.slice(middle);
  
     return merge(mergeSort(left), mergeSort(right));
 
 }
 
-function m(items){
- // mergeSort(items);
-}
 //-----------------------------------------------------------------------------------
