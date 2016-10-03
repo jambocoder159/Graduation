@@ -40,8 +40,8 @@ var wi = (screen.availWidth/2) ;
         chart: {
           title: 'CPU Times',
         },
-        width: wi,
-        height: 600,
+        //width: wi,
+        //height: 600,
         
       };
 
@@ -433,11 +433,6 @@ function mergeSort(items){
 
   add_css("Merge_frame","Merge_name");
 
-  for(var u=0; u<5;u++){
-    cur_merge[u] = 0 ;
-  }
-
-
   if (items.length < 2)
         return items;
  
@@ -449,4 +444,7 @@ function mergeSort(items){
 
 }
 
+function m(items){
+ // mergeSort(items);
+}
 //-----------------------------------------------------------------------------------

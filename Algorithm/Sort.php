@@ -98,7 +98,7 @@
 			</div>
 		</div>
 		<div style="width: 1%;"></div>
-		<div id="line_top_x" style="width:45%;box-shadow:2px 2px 12px -5px rgba(20%,20%,40%,0.5), -2px -2px 12px -5px rgba(20%,20%,40%,0.5) ;"></div>
+		<div id="line_top_x" style="width:49%;height:89%;box-shadow:2px 2px 12px -5px rgba(20%,20%,40%,0.5), -2px -2px 12px -5px rgba(20%,20%,40%,0.5) ;"></div>
 		
 	</div>
 
