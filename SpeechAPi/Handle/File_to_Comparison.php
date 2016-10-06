@@ -1,5 +1,5 @@
 <?php
-
+header("Content-Type:text/html; charset=utf-8");
 
 if ($_FILES["input_file"]["error"] > 0)
 {
@@ -28,7 +28,7 @@ else
 	   $t = fgets($myfile) ;
 	   $a = (explode(" ", $t)) ;
 	   if($a[0] == $a[1])echo $a[0]."==".$a[1]."Yes"."<br>";
-	   else echo $a[1]."NO". "<br>" ;
+	   else echo $a[0]."NO". "<br>" ;
 	}
 	fclose($myfile);
 

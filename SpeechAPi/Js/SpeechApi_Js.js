@@ -93,6 +93,6 @@ function StrToHandle_text() {
           str_input.setAttribute("value",strinput);
       form.appendChild(str_input); 
     document.body.appendChild(form);
-    form.submit();       
+    form.submit();      
 } 
 //=================================================================== 
