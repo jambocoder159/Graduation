@@ -9,3 +9,8 @@
 	margin-bottom: 5% ;
 	margin-top: 3% ;
 }
+.inputTempbox {
+	border: 1px solid ;
+	width:968px;
+	min-height: 200px ;
+}

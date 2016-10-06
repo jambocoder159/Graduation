@@ -2,6 +2,7 @@
 header("Content-Type:text/html; charset=utf-8");
 
 $testData = array();
+$originData = array() ;
 
 //尋找某個字的前兩位得數字========================================================================================================================================
 function Search_num($str_input,$value)
@@ -19,7 +20,10 @@ if(!isset($_FILES["input_file"])){
 
 	$fileORtext = 1 ;   //檔案跑洄圈 字串跑一次
 	//接收input的字串
-	if(isset($_POST['str_input'])) array_push($testData, $_POST['str_input']) ;
+	if(isset($_POST['str_input'])) {
+		array_push($testData, $_POST['str_input']) ;
+		array_push($originData, $_POST['str_input']) ;
+	}
 	else $str_input = "" ;
 
 } else {
@@ -28,11 +32,12 @@ if(!isset($_FILES["input_file"])){
 	$myfile = fopen("upload/input_file/".$_FILES["input_file"]["name"], "r") or die("Unable to open file!");
 	// 输出一行直到 end-of-file
 	while(!feof($myfile)) {
-	   $t = fgets($myfile) ;
-	   $a = (explode(" ", $t)) ;
+	   $t = fgets($myfile) ; //抓一行
+	   $a = (explode(" ", $t)) ; //空白分割
 	   if($a[0] == $a[1])echo $a[0]."==".$a[1]."Yes"."<br>";
 	   else echo $a[0]."NO". "<br>" ;
 	   array_push($testData, $a[0]) ;
+	   array_push($originData, $a[0]) ;
 	}
 	$fileORtext = sizeof($testData) ;   //檔案跑洄圈 字串跑一次
 	fclose($myfile);
@@ -160,11 +165,21 @@ for($i = 0; $i < $fileORtext; $i++){
 
 //送回結果給首頁------------------------------------------------------------------
 echo '<form name="auto" action="../SpeechApi.php" method="POST">' ;
-    echo '<input type="hidden" name="str_input" value="'.$str_input.'"/>' ;
-    echo '<input type="hidden" name="str_output" value="'.$str_output.'"/>' ;
-    echo '<input style="display:none;" type="submit" value="submit"/>';
+
+	if(!isset($_FILES["input_file"])){
+		    echo '<input type="hidden" name="str_input[]" value="'.$testData[0].'"/>' ;
+		    echo '<input type="hidden" name="str_oringin[]" value="'.$originData[0].'"/>' ;
+	}else {
+
+		for($i = 1; $i < sizeof($testData) ; $i ++){
+
+			echo '<input type="hidden" name="str_input[]" value="'.$testData[$i].'"/>' ;
+			echo '<input type="hidden" name="str_oringin[]" value="'.$originData[$i].'"/>' ;
+		}
+	}
+    echo '<input style="" type="submit" value="submit"/>';
 echo '</form>' ;
 ?>
 <script type="text/javascript">
-	//auto.submit();
+	auto.submit();
 </script>

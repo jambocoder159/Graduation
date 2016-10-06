@@ -1,14 +1,15 @@
 <?php
-	if(isset($_POST['str_output'])) $str_output = $_POST['str_output'] ; //接收原輸入
-	else $str_output = "" ;
 
 	if(isset($_POST['str_input'])) $str_input = $_POST['str_input'] ;
-	else $str_input = "" ; //接收處理好的輸出
+	else $str_input = null ; //接收處理好的輸出
+
+	if(isset($_POST['str_oringin'])) $str_oringin = $_POST['str_oringin'] ;
+	else $str_oringin = null ;
 ?>
 
 <!DOCTYPE html>
 <head>
-<title>SpeedApi</title>
+<title>SpeechApi</title>
 <meta charset="utf-8" />
 <link rel="stylesheet" type="text/css" href="Css/SpeechApi_Css.css">
 <script type="text/javascript" charset="UTF-8" src="Js/SpeechApi_Js.js"></script>
@@ -40,22 +41,30 @@
 						<div class="flexCenter" style="width:968px;">
 							Input
 						</div>
-						<textarea rows="15" cols="135" disabled="disabled" style="background:white;" id = "tempBox" value="">
-							<?php echo $str_input ; ?>
-						</textarea>
-					</div>
-					<div>
-						<div class="flexCenter" style="width:968px;">
-							Output
+						<div style="background:white;" id = "tempBox" class="inputTempbox">
+							<?php 
+								for($i = 0; $i < sizeof($str_input); $i ++){
+									echo '<div>';
+										echo $str_oringin[$i]." : "	.$str_input[$i] ; 
+									echo '</div>';
+								}	
+							?>
 						</div>
-						
-						<textarea rows="15" cols="135" disabled="disabled" style="background:white;" id = "textBox" value="">
-							<?php echo $str_output; ?>
-						</textarea>
-						
 					</div>
-			</div>
 				
+			</div>
+			<div>
+				<form action="Handle/StoreHandle.php" method="post" enctype="multipart/form-data">
+					<?php
+						for($i =0; $i < sizeof($str_input); $i ++){
+							echo '<input type="hidden" name="str_input[]" value="'.$str_input[$i].'"/>' ;
+							echo '<input type="hidden" name="str_oringin[]" value="'.$str_oringin[$i].'"/>' ;
+							echo '<input type="hidden" name="doWhat" value="add"/>' ;
+						}
+					?>
+					<input type="submit">
+				</form>
+			</div>
 			<div class="flexCenter">
 				辨識語言：
 				<select id="langCombo">
