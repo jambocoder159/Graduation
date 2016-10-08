@@ -4,6 +4,7 @@ var cur_insertion = new Array(5) ;
 var cur_radix = new Array(5) ;
 var cur_heap = new Array(5) ;
 var cur_merge = new Array(5) ;
+var cur_quick = new Array(5) ;
 var random_array = new Array(5);
 var once_plus ; 
 var size ;
@@ -22,6 +23,7 @@ var size ;
         data.addColumn('number', 'Radix Sort');
         data.addColumn('number', 'Heap Sort');
         data.addColumn('number', 'Merge Sort');
+        data.addColumn('number', 'Quick Sort');
         data.addRows(5);
 
         
@@ -33,6 +35,7 @@ var size ;
           data.setValue(i,4,cur_radix[i]);
           data.setValue(i,5,cur_heap[i]);
           data.setValue(i,6,cur_merge[i]);
+          data.setValue(i,7,cur_quick[i]);
           size = size + parseInt(once_plus) ;
         }
        
@@ -73,10 +76,10 @@ function add_css(frame,name) {
         document.body.appendChild(css);        
 }
 
-function remove_css(frame1,frame2,frame3,frame4,frame5,frame6) {
+function remove_css(frame1,frame2,frame3,frame4,frame5,frame6,frame7) {
     var css = document.createElement("style");
         css.type = "text/css";
-        css.innerHTML = "#"+frame1+","+"#"+frame2+","+"#"+frame3+","+"#"+frame4+","+"#"+frame5+","+"#"+frame6+" { display:none; }";
+        css.innerHTML = "#"+frame1+","+"#"+frame2+","+"#"+frame3+","+"#"+frame4+","+"#"+frame5+","+"#"+frame6+","+"#"+frame7+" { display:none; }";
         document.body.appendChild(css); 
 }
 
@@ -143,10 +146,11 @@ function Sort(){
     cur_radix[i] = null ;
     cur_heap[i] = null ;
     cur_merge[i] = null ;
+    cur_quick[i] = null ;
   }
   ranges_nums(once_plus) ;
 
-  remove_css("Selection_frame","Bubble_frame","Insertion_frame","Radix_frame","Heap_frame","Merge_frame");
+  remove_css("Selection_frame","Bubble_frame","Insertion_frame","Radix_frame","Heap_frame","Merge_frame","Quick_frame");
 
   if(document.getElementById("Selection").checked == true){selectionSort();checked_sure = true;}
   if(document.getElementById("Bubble").checked == true){bubbleSort();checked_sure = true ;}
@@ -173,6 +177,29 @@ function Sort(){
     document.getElementById("merge_sort_times").innerHTML = cur_merge[0]+"sec" +" "+ cur_merge[1]+"sec" +" "+ cur_merge[2]+"sec" +" "+ cur_merge[3]+"sec" +" "+ cur_merge[4] +"sec" ; //總測試時間
 
     checked_sure = true;
+  }
+
+  if(document.getElementById("Quick").checked == true){
+    add_css("Quick_frame","Quick_name");
+    for(var u=0; u<5; u++){
+
+      items = Copy_arr(random_array[u]);
+      var start = 0; 
+      var end = 0;
+      start = new Date().getTime(); //測試程式開始時間
+
+      quick = quickSort(items);
+
+      end = new Date().getTime();//測試程式結束時間
+
+      cur_quick[u] = ((end - start) / 1000);
+      
+    }
+    document.getElementById("quick_print").innerHTML = quick ;
+    document.getElementById("quick_sort_times").innerHTML = cur_quick[0]+"sec" +" "+ cur_quick[1]+"sec" +" "+ cur_quick[2]+"sec" +" "+ cur_quick[3]+"sec" +" "+ cur_quick[4] +"sec" ; //總測試時間
+
+    checked_sure = true;
+
   }
 
   if(checked_sure == true)drawChart();
@@ -452,3 +479,21 @@ function mergeSort(items){
 }
 
 //-----------------------------------------------------------------------------------
+
+//quick sort=========================================================================
+
+function quickSort(items) {
+
+    if (items.length <= 1) return items;
+
+    var left = [], right = [], pivot = items[0];
+
+    for (var i = 1; i < items.length; i++) {
+        items[i] < pivot ? left.push(items[i]) : right.push(items[i]);
+    }
+
+    return quickSort(left).concat(pivot, quickSort(right));
+}
+
+
+//===================================================================================

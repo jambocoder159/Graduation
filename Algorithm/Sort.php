@@ -35,7 +35,7 @@
 						<input type="checkbox" name="check[]" id="Radix"><label>Radix sort</label>
 						<input type="checkbox" name="check[]" id="Heap"><label>Heap sort</label>
 						<input type="checkbox" name="check[]" id="Merge"><label>Merge sort</label><br>
-						<input type="checkbox" name="check[]" id="Quick"><label>Quick sort(recursive version)</label>
+						<input type="checkbox" name="check[]" id="Quick"><label>Quick sort</label>
 						<input type="checkbox" name="check[]" id="non_Quick"><label>Quick sort(non-recursive version)</label>
 					</div>
 					<div style="display: flex;justify-content:center;margin-bottom: 1%;margin-top: 1%;">
@@ -93,6 +93,13 @@
 							<div id="merge_sort_times"></div>
 						<div id="Merge_name" class="RN">Random Numbers : </div>
 							<div id="merge_print"></div>
+					</div>
+					<div id="Quick_frame" class="frame" >
+						<div id="Quick_name" style="color:#FF3B3B;">Quick Sort </div>
+						<div id="Quick_name" class="RN">Sort Times : </div>
+							<div id="quick_sort_times"></div>
+						<div id="Quick_name" class="RN">Random Numbers : </div>
+							<div id="quick_print"></div>
 					</div>
 				</div>
 			</div>
