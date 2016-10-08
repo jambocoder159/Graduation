@@ -4,9 +4,10 @@ var cur_insertion = new Array(5) ;
 var cur_radix = new Array(5) ;
 var cur_heap = new Array(5) ;
 var cur_merge = new Array(5) ;
+var random_array = new Array(5);
 var once_plus ; 
 var size ;
-var wi = (screen.availWidth/2) ;
+
 
 //google chart--------------------------------------------------------------------
  google.charts.load('current', {'packages':['line']});
@@ -83,19 +84,35 @@ function remove_css(frame1,frame2,frame3,frame4,frame5,frame6) {
 
 //creat array contain random values-------------------------------------------
 function ranges_nums(once){
-
+  random_array = [] ;
   var ranges = document.getElementById("range").value ; //範圍
   var nums = document.getElementById("num").value ; //數量
-  nums = parseInt(nums) + parseInt(once) ;
 
-  var items = new Array();
-    //把random出來的數字塞進陣列
-    for(var i =0;i < nums ; i ++){
-        items.push(random_num(1,ranges)) ;    
+  for(var j =0; j<5 ; j++){
+    nums = parseInt(nums) + parseInt(once) ;
+    var items = new Array();
+      //把random出來的數字塞進陣列
+      for(var i =0;i < nums ; i ++){
+          items.push(random_num(1,ranges)) ;    
+      }
+      random_array.push(items) ;
     }
-  return items ;  
+  //return random_array ;  
 
 }
+//-----------------------------------------------------------------------------
+
+//複製陣列---------------------------------------------------------------------
+function Copy_arr(arr) {
+  
+  var copy_arr = new Array() ;
+  for(var i =0 ; i < arr.length ; i ++){
+    copy_arr.push(arr[i]) ;
+  }
+
+  return copy_arr ;
+}
+
 //-----------------------------------------------------------------------------
 
 //random=============================================
@@ -127,7 +144,8 @@ function Sort(){
     cur_heap[i] = null ;
     cur_merge[i] = null ;
   }
-    
+  ranges_nums(once_plus) ;
+
   remove_css("Selection_frame","Bubble_frame","Insertion_frame","Radix_frame","Heap_frame","Merge_frame");
 
   if(document.getElementById("Selection").checked == true){selectionSort();checked_sure = true;}
@@ -138,16 +156,16 @@ function Sort(){
 
   if(document.getElementById("Merge").checked == true){
     add_css("Merge_frame","Merge_name");
-    var once = 0 ;
+
     for(var u=0; u<5; u++){
 
-      var items = ranges_nums(once) ;
+      items = Copy_arr(random_array[u]) ;
       var start = 0; 
       var end = 0;
       start = new Date().getTime(); //測試程式開始時間
       var merge = mergeSort(items) ;
       end = new Date().getTime();//測試程式結束時間
-      once += parseInt(once_plus) ;
+
       cur_merge[u] = ((end - start) / 1000);
 
     }
@@ -165,11 +183,10 @@ function Sort(){
 //selectionSort===================================================
 function selectionSort(){
 
-    var once = 0 ;
     add_css("Selection_frame","Selection_name");
     for(var u =0; u<5; u++){
 
-      items = ranges_nums(once);
+      items = Copy_arr(random_array[u]) ;
       var start = 0; 
       var end = 0;
 
@@ -197,7 +214,7 @@ function selectionSort(){
       }
       
       end = new Date().getTime();//測試程式結束時間
-      once += parseInt(once_plus) ;
+      //once += parseInt(once_plus) ;
 
       cur_selection[u] = ((end - start) / 1000);
     }
@@ -211,11 +228,11 @@ function selectionSort(){
 
 //bubbleSort---------------------------------------------------------
 function bubbleSort() {
-    var once = 0 ;
+
     add_css("Bubble_frame","Bubble_name");
     for(var u=0; u<5; u++){
 
-      items = ranges_nums(once);
+      items = Copy_arr(random_array[u]) ;
       var start = 0; 
       var end = 0;
 
@@ -234,7 +251,6 @@ function bubbleSort() {
 
        end = new Date().getTime();//測試程式結束時間
 
-      once += parseInt(once_plus) ;
 
       cur_bubble[u] = ((end - start) / 1000);
      }
@@ -246,11 +262,11 @@ function bubbleSort() {
 
 //Insertion sort==================================================================
 function insertionSort(){
-  var once = 0 ;
+
   add_css("Insertion_frame","Insertion_name");
   for(var u=0; u<5; u++){
 
-    items = ranges_nums(once);
+    items = Copy_arr(random_array[u]) ;
     var start = 0; 
     var end = 0;
 
@@ -269,7 +285,6 @@ function insertionSort(){
     }
 
     end = new Date().getTime();//測試程式結束時間
-    once += parseInt(once_plus) ;
 
     cur_insertion[u] = ((end - start) / 1000);
 
@@ -290,11 +305,11 @@ var initArray = function(buckets, count){
 }
 
 function radixSort(){
-    var once = 0 ;
+
     add_css("Radix_frame","Radix_name");
     for(var u=0; u<5; u++){
 
-      var items = ranges_nums(once);   
+      items = Copy_arr(random_array[u]) ;
 
       var start = 0; 
       var end = 0;
@@ -329,7 +344,6 @@ function radixSort(){
           }   
       }
       end = new Date().getTime();//測試程式結束時間
-      once += parseInt(once_plus) ;
 
       cur_radix[u] = ((end - start) / 1000);
 
@@ -366,11 +380,11 @@ function heapify(items, root, length){
 }
 
 function heapSort(){
-    var once = 0 ;
+  
     add_css("Heap_frame","Heap_name");
     for(var u=0; u<5; u++){
 
-      items = ranges_nums(once);
+      items = Copy_arr(random_array[u]) ;
       var start = 0; 
       var end = 0;
 
@@ -387,7 +401,6 @@ function heapSort(){
       }
 
       end = new Date().getTime();//測試程式結束時間
-      once += parseInt(once_plus) ;
 
       cur_heap[u] = ((end - start) / 1000);
 
