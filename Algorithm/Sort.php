@@ -101,6 +101,13 @@
 						<div id="Quick_name" class="RN">Random Numbers : </div>
 							<div id="quick_print"></div>
 					</div>
+					<div id="non_Quick_frame" class="frame" >
+						<div id="non_Quick_name" style="color:#FF3B3B;">Non_Quick Sort </div>
+						<div id="non_Quick_name" class="RN">Sort Times : </div>
+							<div id="non_quick_sort_times"></div>
+						<div id="non_Quick_name" class="RN">Random Numbers : </div>
+							<div id="non_quick_print"></div>
+					</div>
 				</div>
 			</div>
 		</div>

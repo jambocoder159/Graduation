@@ -5,6 +5,7 @@ var cur_radix = new Array(5) ;
 var cur_heap = new Array(5) ;
 var cur_merge = new Array(5) ;
 var cur_quick = new Array(5) ;
+var cur_non_quick = new Array(5) ;
 var random_array = new Array(5);
 var once_plus ; 
 var size ;
@@ -24,6 +25,7 @@ var size ;
         data.addColumn('number', 'Heap Sort');
         data.addColumn('number', 'Merge Sort');
         data.addColumn('number', 'Quick Sort');
+        data.addColumn('number', 'Non Quick Sort');
         data.addRows(5);
 
         
@@ -36,6 +38,7 @@ var size ;
           data.setValue(i,5,cur_heap[i]);
           data.setValue(i,6,cur_merge[i]);
           data.setValue(i,7,cur_quick[i]);
+          data.setValue(i,8,cur_non_quick[i]);
           size = size + parseInt(once_plus) ;
         }
        
@@ -76,10 +79,10 @@ function add_css(frame,name) {
         document.body.appendChild(css);        
 }
 
-function remove_css(frame1,frame2,frame3,frame4,frame5,frame6,frame7) {
+function remove_css(frame1,frame2,frame3,frame4,frame5,frame6,frame7,frame8) {
     var css = document.createElement("style");
         css.type = "text/css";
-        css.innerHTML = "#"+frame1+","+"#"+frame2+","+"#"+frame3+","+"#"+frame4+","+"#"+frame5+","+"#"+frame6+","+"#"+frame7+" { display:none; }";
+        css.innerHTML = "#"+frame1+","+"#"+frame2+","+"#"+frame3+","+"#"+frame4+","+"#"+frame5+","+"#"+frame6+","+"#"+frame7+","+"#"+frame8+" { display:none; }";
         document.body.appendChild(css); 
 }
 
@@ -147,10 +150,11 @@ function Sort(){
     cur_heap[i] = null ;
     cur_merge[i] = null ;
     cur_quick[i] = null ;
+    cur_non_quick[i] = null ;
   }
   ranges_nums(once_plus) ;
 
-  remove_css("Selection_frame","Bubble_frame","Insertion_frame","Radix_frame","Heap_frame","Merge_frame","Quick_frame");
+  remove_css("Selection_frame","Bubble_frame","Insertion_frame","Radix_frame","Heap_frame","Merge_frame","Quick_frame","non_Quick_frame");
 
   if(document.getElementById("Selection").checked == true){selectionSort();checked_sure = true;}
   if(document.getElementById("Bubble").checked == true){bubbleSort();checked_sure = true ;}
@@ -201,7 +205,8 @@ function Sort(){
     checked_sure = true;
 
   }
-
+  
+  if(document.getElementById("non_Quick").checked == true){non_quick();checked_sure = true;}
   if(checked_sure == true)drawChart();
   else window.alert("請至少勾選一項sort的方法");
 }
@@ -336,47 +341,57 @@ function radixSort(){
     add_css("Radix_frame","Radix_name");
     for(var u=0; u<5; u++){
 
-      items = Copy_arr(random_array[u]) ;
+      array = Copy_arr(random_array[u]) ;
 
       var start = 0; 
       var end = 0;
 
       start = new Date().getTime(); //測試程式開始時間
 
-      var MAX = parseInt(document.getElementById("range").value) ;            // 數的上限
-      var dataIndex = 0, radix = 1;           // radix = 1, 10, 100,...
-      var buckets = new Array(items.length),   // 桶子 
-          count = new Array(items.length);     // 記錄每個桶子裝了幾個數值
-      initArray( buckets, count );            // 初始化桶子
-
-      while(radix <= MAX){                    // 若基數沒有超出上限
-
-        // 分配
-          for(var i = 0; i < items.length; i++){
-              var LSD = parseInt((items[i]/radix)) % 10;    // 計算LSD(=那一個桶子)
-              buckets[LSD][count[LSD]] = items[i];          // 將資料放到對應的桶子
-              count[LSD]++;
-          }
-          radix *= 10;                                     // 更新基底：1->10, 10->100
-      
-          // 合併
-          dataIndex = 0;
-          for(var i = 0; i < items.length; i++){         // 將桶子內的資料合併
-              if(count[i] != 0){                        // 如果桶子內有資料
-                  for(var j =0 ; j < count[i]; j++){
-                      items[dataIndex++] = buckets[i][j];
-                  }
-              }
-              count[i] = 0;                             // 歸0，以便下一回合使用
-          }   
-      }
+	     var bucket = [],
+	        l = array.length,
+	        loop,
+	        str,
+	        i,
+	        j,
+	        k,
+	        t,
+	        max = array[0];
+	    for (i = 1; i < l; i++) {
+	        if (array[i] > max) {
+	            max = array[i]
+	        }
+	    }
+	    loop = (max + '').length;
+	    for (i = 0; i < 10; i++) {
+	        bucket[i] = [];
+	    }
+	    for (i = 0; i < loop; i++) {
+	        for (j = 0; j < l; j++) {
+	            str = array[j] + '';
+	            if (str.length >= i + 1) {
+	                k = parseInt(str[str.length - i - 1]);
+	                bucket[k].push(array[j]);
+	            } else {
+	                bucket[0].push(array[j]);
+	            }
+	        }
+	        array.splice(0, l);
+	        for (j = 0; j < 10; j++) {
+	            t = bucket[j].length;
+	            for (k = 0; k < t; k++) {
+	                array.push(bucket[j][k]);
+	            }
+	            bucket[j] = [];
+	        }
+	    }
       end = new Date().getTime();//測試程式結束時間
 
       cur_radix[u] = ((end - start) / 1000);
 
     }
 
-    document.getElementById("radix_print").innerHTML = items;
+    document.getElementById("radix_print").innerHTML = array;
     document.getElementById("radix_sort_times").innerHTML = cur_radix[0]+"sec"+" "+cur_radix[1]+"sec"+" "+cur_radix[2]+"sec"+" "+cur_radix[3]+"sec"+""+cur_radix[4]+ "sec" ; //總測試時間 
 }
 
@@ -497,3 +512,54 @@ function quickSort(items) {
 
 
 //===================================================================================
+
+
+function non_quick()
+{
+	add_css("non_Quick_frame","non_Quick_name");
+	for(var u=0; u<5; u++){
+
+		items = Copy_arr(random_array[u]);
+	    var stack = [items];
+	    var sorted = [];
+
+	    var start = 0; 
+      	var end = 0;
+      	start = new Date().getTime(); //測試程式開始時間
+	 
+	    while (stack.length) {
+	 
+	        var temp = stack.pop(), tl = temp.length;
+	 
+	        if (tl == 1) {
+	            sorted.push(temp[0]);
+	            continue;
+	        }
+	        var pivot = temp[0];
+	        var left = [], right = [];
+	 
+	        for (var i = 1; i < tl; i++) {
+	            if (temp[i] < pivot) {
+	                left.push(temp[i]);
+	            } else {
+	                right.push(temp[i]);
+	            }
+	        }
+	 
+	        left.push(pivot);
+	 
+	        if (right.length)
+	            stack.push(right);
+	        if (left.length)
+	            stack.push(left);
+	 
+	    }
+	    end = new Date().getTime();//測試程式結束時間
+
+      	cur_non_quick[u] = ((end - start) / 1000);
+  
+	}
+ 	document.getElementById("non_quick_print").innerHTML = sorted;
+    document.getElementById("non_quick_sort_times").innerHTML = cur_non_quick[0]+"sec"+" "+cur_non_quick[1]+"sec"+" "+cur_non_quick[2]+"sec"+" "+cur_non_quick[3]+"sec"+" "+cur_non_quick[4]+ "sec" ; //總測試時間 
+    
+}
