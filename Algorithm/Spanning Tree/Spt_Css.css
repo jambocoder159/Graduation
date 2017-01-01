@@ -5,6 +5,7 @@ html,body {
 body {
 	display: flex;
 	justify-content: center;
+	align-items: center;
 }
 span {
 	color: red;
@@ -12,8 +13,6 @@ span {
 .center {
 	width: 80% ;
 	height: 100%;
-	display: flex;
-	align-items: center;
 }
 .w100 {
 	height: 60%;
@@ -114,4 +113,29 @@ div.tab_container .tab_content {
 	justify-content: center;
 	align-items: center;
 	background-color: #33CCFF ;
+}
+.bk_star {
+	border-color: black ;
+	color: red ;
+	font-size: 25px ;
+	font-weight: bold;
+}
+.bk_end {
+	border-color: black ;
+	color: 	seagreen	 ;
+	font-size: 25px ;
+	font-weight: bold;
+}
+.check_box:hover {
+	background-color: paleturquoise ;
+}
+.title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 3% ;
+	margin-top: 3% ;
+	font-size: 50px ;
+	font-weight: bold;
+	color: 	#708090 ;
 }

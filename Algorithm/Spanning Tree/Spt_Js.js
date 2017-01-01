@@ -70,7 +70,14 @@ $(function(){
     }
 //--------------------------------------------------------------------------------   
 
-var delet_table = false ; //使網頁上只會印出一頁圖表
+//範圍選取check box===============================================================
+function range_click(name) {
+	if(document.getElementById(name).checked == true)document.getElementById(name).checked = false ;
+	else document.getElementById(name).checked = true ;
+}
+
+//================================================================================
+
 var distance_table = [] ; // nX3距離矩陣
 var table_range ="" ; //範圍
 var table_num ="" ; //數量
@@ -80,17 +87,19 @@ var prim_point = [] ;	//存放p輸出的每個點
 var primpre_point = [] ;  //用來存放p可能會經過的點
 var kruskal_cpu = [] ;
 var prim_cpu = [] ;
+var short_path_point = [] ;
+var adv = [] ;
 
 function table(number,boo) {    //產生表格家排序
 
 	distance_table = [] ; //清空陣列
 	//刪除舊表格=================================================
-	if(delet_table==true){
-		document.getElementById("container").remove();
-		document.getElementById("kruskal_container").remove();
-		document.getElementById("prim_container").remove();
-	}
-	else delet_table = true ;
+
+	if (typeof(document.getElementById("container")) != 'undefined' && document.getElementById("container") != null)document.getElementById("container").remove();
+	if (typeof(document.getElementById("kruskal_container")) != 'undefined' && document.getElementById("kruskal_container") != null)document.getElementById("kruskal_container").remove();
+	if (typeof(document.getElementById("prim_container")) != 'undefined' && document.getElementById("prim_container") != null)document.getElementById("prim_container").remove();
+	if (typeof(document.getElementById("short_path_container")) != 'undefined' && document.getElementById("short_path_container") != null)document.getElementById("short_path_container").remove();
+
 	//===========================================================
 
 	table_range = document.getElementById("range").value ;//範圍
@@ -159,15 +168,18 @@ function table(number,boo) {    //產生表格家排序
 		}
 		//alert(adj[11][0]);
 	//-----------------------------------------------------------------
+	adv = adj ;
 	distance_table.sort(function(a,b){return a[2]-b[2]});
 	if(boo == true ){
-		Kruskal();
-		Prim();
+		if(document.getElementById("Kruskal").checked == true)Kruskal();
+		if(document.getElementById("Prim").checked == true)Prim();
 		drawChart();
+		if(document.getElementById("Short_Path").checked == true)Short_path(adj);
 	}
 	$('.colstyle').addClass('colstyle');
 	$('.rowstyle').addClass('rowstyle');
 	$('#container').addClass('container');
+	
 }
 
 function ranges_num(range) { //隨機亂數
@@ -325,6 +337,10 @@ function image_go() {
 	image(0.75);
 	image(0.9);
 	drawChart();
+	if(document.getElementById("Kruskal").checked == false)document.getElementById("kruskal_container").remove();
+	if(document.getElementById("Prim").checked == false)document.getElementById("prim_container").remove();	
+	if(document.getElementById("Short_Path").checked == true)Short_path(adv);
+
 	document.getElementById('compare_text').innerHTML = '<span>'+"Kruskal演算法"+'</span>'+'<br>' +"d[0] = "+ kruskal_cpu[0]+'<br>'+
 																				"d[0.01] = " +kruskal_cpu[1]+'<br>'+
 																				"d[0.1] = " +kruskal_cpu[2]+ '<br>'+
@@ -335,4 +351,88 @@ function image_go() {
 																				"d[0.1] = " +prim_cpu[2]+ '<br>'+
 																				"d[0.75] = "+ prim_cpu[3]+'<br>'+
 																				"d[0.9] = "+prim_cpu[4]+'<br>';
+}
+
+
+function Short_path(args) {
+	var w = args;    // 一張有權重的圖：adjacency matrix
+	short_path_point = [] ;
+
+	for(var h=0; h<table_num; h++){
+
+		var source = h ;
+		var d = new Array(table_num);       // 記錄起點到圖上各個點的最短路徑長度
+		var parent = new Array(table_num);  // 記錄各個點在最短路徑樹上的父親是誰
+		var visit = new Array(table_num);  // 記錄各個點是不是已在最短路徑樹之中
+		 		
+		
+		    for (var i=0; i < table_num; i++) visit[i] = false; // initialize
+		 
+		    d[source] = 0;              // 設定起點的最短路徑長度
+		    parent[source] = source;    // 設定起點是樹根（父親為自己）
+		    visit[source] = true;       // 將起點加入到最短路徑樹
+		 
+		    for (var k=0; k<table_num-1; k++)   // 將剩餘所有點加入到最短路徑樹
+		    {
+		        // 從既有的最短路徑樹，找出一條聯外而且是最短的邊
+		        var a = -1, b = -1, min = 999999;
+		 
+		        // 找一個已在最短路徑樹上的點
+		        for (var i=0; i<table_num; i++)
+		            if (visit[i])
+		                // 找一個不在最短路徑樹上的點
+		                for (var j=0; j<table_num; j++)
+		                    if (!visit[j])
+		                        if (d[i] + w[i][j] < min)
+		                        {
+		                            a = i;  // 記錄這一條邊
+		                            b = j;
+		                            min = d[i] + w[i][j];
+		                        }
+		 
+		        // 起點有連通的最短路徑都已找完
+		        if (a == -1 || b == -1) break;
+		//      // 不連通即是最短路徑長度無限長
+		//      if (min == 1e9) break;
+		 
+		        d[b] = min;         // 儲存由起點到b點的最短路徑長度
+		        parent[b] = a;      // b點是由a點延伸過去的
+		        visit[b] = true;    // 把b點加入到最短路徑樹之中
+		    }
+
+		    short_path_point.push(d) ;
+	   
+		}
+
+		//產生表格---------------------------------------------------------
+		var short_path_container = document.createElement('div') ;
+		short_path_container.id = 'short_path_container' ;
+		document.getElementById("tab5").appendChild(short_path_container) ;
+		
+			for(var i=-1;i<table_num ; i++){
+				var short_path_col = document.createElement('div');
+					short_path_col.id = 'short_path_col'+i ;
+					short_path_col.className = 'colstyle' ;
+					var short_path_coli = 'short_path_col'+i ;
+					document.getElementById("short_path_container").appendChild(short_path_col);
+
+					for(var u=-1; u<table_num; u++){
+						var short_path_row = document.createElement('div');
+						short_path_row.id = 'short_path_row'+i+'='+u ;
+						short_path_rowid = 'short_path_row'+i+'='+u ;
+						if(i==-1&&u==-1)short_path_row.className = 'bk' ;
+						else if(u==-1)short_path_row.className = 'bk_star bk' ;
+						else if(i==-1)short_path_row.className = 'bk_end bk' ;
+						else short_path_row.className = 'rowstyle' ;
+						document.getElementById(short_path_coli).appendChild(short_path_row);
+
+						if(i==-1&&u==-1)document.getElementById(short_path_rowid).innerHTML = "" ;
+						else if(i==-1)document.getElementById(short_path_rowid).innerHTML = u ;
+						else if(u==-1)document.getElementById(short_path_rowid).innerHTML = i ;
+						else document.getElementById(short_path_rowid).innerHTML = short_path_point[i][u] ;
+					}
+			}
+		//alert(adj[11][0]);
+	//-----------------------------------------------------------------
+		console.table(short_path_point);
 }

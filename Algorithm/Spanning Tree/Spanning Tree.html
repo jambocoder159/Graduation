@@ -2,23 +2,31 @@
 <html lang="zh-tw">
 <head>
 <meta name="Author" content="Tin-Lin Su" />
-<meta name="Description" content="" />
+<meta name="Description" content="Minimal spanning tree & Shortest paths" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="Spt_Css.css">
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="Spt_Js.js"></script>
-<title>Spanning Tree</title>
+<title>Minimal spanning tree & Shortest paths</title>
 </head>
 
 <body>
 	<div class="center">
 		<div class="w100">
+			<div class="title">
+				Minimal spanning tree & Shortest paths
+			</div>
 			<div class="text_input" id="text_input">
-				<label>範圍</label><input type="text" id="range" value="50">
-				<label>數量</label><input type="text" id="amount" value="100" >
-				<label>密集度</label><input type="text" id="density" value="0.7" >
-				<input type="button" name="" value="產生表格" onclick="table(9999,true)">
+				<label><b>範圍</b></label><input type="text" id="range" value="50">
+				<label><b>數量</b></label><input type="text" id="amount" value="50" >
+				<label><b>密集度</b></label><input type="text" id="density" value="0.7" >
+				<input type="button" name="" value="產生距離資料" onclick="table(9999,true)">
+			</div>
+			<div>
+				<input type="checkbox" name="check[]" checked="checked" id="Prim"><label class="check_box" onclick="range_click('Prim')">Prim Algorithm</label>
+				<input type="checkbox" name="check[]" checked="checked" id="Kruskal"><label class="check_box" onclick="range_click('Kruskal')">Kruskal Algorithm</label>
+				<input type="checkbox" name="check[]" checked="checked" id="Short_Path"><label class="check_box" onclick="range_click('Short_Path')">Short Path Algorithm</label><br>
 			</div>
 
 			<div class="abgne_tab">
@@ -26,7 +34,8 @@
 					<li><a href="#tab1">距離資料</a></li>
 					<li><a href="#tab2">Prim</a></li>
 					<li><a href="#tab3">Kruskal</a></li>
-					<li><a href="#tab4">比較圖表</a></li>
+					<li><a href="#tab4">P&K比較</a></li>
+					<li><a href="#tab5">Short Path</a></li>
 				</ul>
 
 				<div class="tab_container">
@@ -49,12 +58,18 @@
 						<div id="button1">
 							<input type="button" name="" onclick="image_go()" value="執行">
 							<div id="compare_text">	
-								<span>此頁面將d(edges/(total possible edges)固定為Moodle上所指定的數值，但可自由指定數量，點及執行開始。</span>
+								<span>此頁面將d(edges/(total possible edges)固定為Moodle上所指定的數值，但可自由指定數量，點擊執行開始。</span>
 							</div>
 						</div>	
 						<div id="compare"></div>
 						
 					</div>
+					<div id="tab5" class="tab_content">
+						<span><b>※左邊紅色點為起點 </b></span> 
+
+
+					</div>
+
 				</div>
 			</div>
 		</div>
