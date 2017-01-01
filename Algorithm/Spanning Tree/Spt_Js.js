@@ -22,15 +22,66 @@ $(function(){
 	});
 });
 
+//google chart--------------------------------------------------------------------
+ google.charts.load('current', {'packages':['line']});
+      google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+        data.addColumn('number', 'Date Size');
+        data.addColumn('number', 'Kruskal 演算法');
+        data.addColumn('number', 'Prim 演算法');
+        data.addRows(5);
+
+        data.setValue(0,0,0);
+        data.setValue(0,1,kruskal_cpu[0]);
+        data.setValue(0,2,prim_cpu[0]);
+
+    	
+    	data.setValue(1,0,0.01);
+        data.setValue(1,1,kruskal_cpu[1]);
+        data.setValue(1,2,prim_cpu[1]);
+
+        data.setValue(2,0,0.1);
+        data.setValue(2,1,kruskal_cpu[2]);
+        data.setValue(2,2,prim_cpu[2]);
+
+        data.setValue(3,0,0.75);
+        data.setValue(3,1,kruskal_cpu[3]);
+        data.setValue(3,2,prim_cpu[3]);
+
+        data.setValue(4,0,0.9);
+        data.setValue(4,1,kruskal_cpu[4]);
+        data.setValue(4,2,prim_cpu[4]);
+       
+
+      var options = {
+        chart: {
+          title: 'CPU Times',
+        },
+        width: 800,
+        height: 600,
+        
+      };
+
+      var chart = new google.charts.Line(document.getElementById('compare'));
+
+      chart.draw(data, options);
+    }
+//--------------------------------------------------------------------------------   
+
 var delet_table = false ; //使網頁上只會印出一頁圖表
 var distance_table = [] ; // nX3距離矩陣
 var table_range ="" ; //範圍
 var table_num ="" ; //數量
+var density = "";
 var kruskal_point = [] ; //存放k輸出的每個點
 var prim_point = [] ;	//存放p輸出的每個點
 var primpre_point = [] ;  //用來存放p可能會經過的點
+var kruskal_cpu = [] ;
+var prim_cpu = [] ;
 
-function table() {    //產生表格家排序
+function table(number,boo) {    //產生表格家排序
 
 	distance_table = [] ; //清空陣列
 	//刪除舊表格=================================================
@@ -44,7 +95,8 @@ function table() {    //產生表格家排序
 
 	table_range = document.getElementById("range").value ;//範圍
 	table_num = document.getElementById("amount").value ;//數量
-
+	density = document.getElementById("density").value ;//密度
+	if(number!=9999)density = number ;
 	//建立陣列+初始化------------------------------------------------
 	var adj = new Array(table_num) ;
 	for(var i=0; i<table_num ;i++){ //產生二維
@@ -65,7 +117,7 @@ function table() {    //產生表格家排序
 			}else{
 				if(adj[i][j]==0){
 					var num = ranges_num(table_range);//產生亂數
-					if(num > (table_range*0.8) )num = 999999 ;//亂數大於多少使其等於無限大
+					if(num > (table_range*density) )num = 999999 ;//亂數大於多少使其等於無限大
 						adj[i][j] = num ;
 					if(num != 999999){
 						var three_table = [i,j,num] ;
@@ -75,6 +127,7 @@ function table() {    //產生表格家排序
 			} 
 		}
 	}
+
 	//=================================================================
 
 	//產生表格---------------------------------------------------------
@@ -82,27 +135,36 @@ function table() {    //產生表格家排序
 	container.id = 'container' ;
 	document.getElementById("tab1").appendChild(container) ;
 	
-		for(var i=0;i<table_num ; ++i){
+		for(var i=-1;i<table_num ; i++){
 			var col = document.createElement('div');
 				col.id = 'col'+i ;
 				col.className = 'colstyle' ;
 				var coli = 'col'+i ;
 				document.getElementById("container").appendChild(col);
 
-				for(var u=0; u<table_num; ++u){
+				for(var u=-1; u<table_num; u++){
 					var row = document.createElement('div');
-					row.id = 'row'+i+u ;
-					rowid = 'row'+i+u ;
-					row.className = 'rowstyle' ;
-					document.getElementById(coli).appendChild(row);	
-					document.getElementById(rowid).innerHTML = adj[i][u] ;
+					row.id = 'row'+i+'='+u ;
+					rowid = 'row'+i+'='+u ;
+					if(i==-1&&u==-1)row.className = 'bk' ;
+					else if(i==-1 || u==-1)row.className = 'bk' ;
+					else row.className = 'rowstyle' ;
+					document.getElementById(coli).appendChild(row);
+
+					if(i==-1&&u==-1)document.getElementById(rowid).innerHTML = "" ;
+					else if(i==-1)document.getElementById(rowid).innerHTML = u ;
+					else if(u==-1)document.getElementById(rowid).innerHTML = i ;
+					else document.getElementById(rowid).innerHTML = adj[i][u] ;
 				}
 		}
-	
+		//alert(adj[11][0]);
 	//-----------------------------------------------------------------
 	distance_table.sort(function(a,b){return a[2]-b[2]});
-	Kruskal();
-	Prim();
+	if(boo == true ){
+		Kruskal();
+		Prim();
+		drawChart();
+	}
 	$('.colstyle').addClass('colstyle');
 	$('.rowstyle').addClass('rowstyle');
 	$('#container').addClass('container');
@@ -165,13 +227,16 @@ function Prim() {  //Prim演算法
 				var prim_coli = 'prim_col'+i ;
 				document.getElementById("prim_container").appendChild(prim_col);
 
-				for(var u=0; u<2; ++u){
+				for(var u=0; u<3; ++u){
 					var prim_row = document.createElement('div');
 					prim_row.id = 'prim_row'+i+u ;
 					var prim_rowid = 'prim_row'+i+u ;
-					prim_row.className = 'rowstyle' ;
+					if(u!=1)prim_row.className = 'bk' ;
+					else prim_row.className = 'rowstyle' ;
 					document.getElementById(prim_coli).appendChild(prim_row);	
-					document.getElementById(prim_rowid).innerHTML = prim_point[i][u] ;
+					if(u==1)document.getElementById(prim_rowid).innerHTML = '<span>'+ '==>'+'</span>' ;
+					else if(u==2)document.getElementById(prim_rowid).innerHTML = prim_point[i][u-1] ;	
+					else document.getElementById(prim_rowid).innerHTML = prim_point[i][u] ;
 				}
 		}
 	//--------------------------------------------------------------
@@ -218,14 +283,56 @@ function Kruskal() {  //Kruskal演算法
 				var kruskal_coli = 'kruskal_col'+i ;
 				document.getElementById("kruskal_container").appendChild(kruskal_col);
 
-				for(var u=0; u<2; ++u){
+				for(var u=0; u<3; ++u){
 					var kruskal_row = document.createElement('div');
 					kruskal_row.id = 'kruskal_row'+i+u ;
 					var kruskal_rowid = 'kruskal_row'+i+u ;
-					kruskal_row.className = 'rowstyle' ;
-					document.getElementById(kruskal_coli).appendChild(kruskal_row);	
-					document.getElementById(kruskal_rowid).innerHTML = kruskal_point[i][u] ;
+					if(u!=1)kruskal_row.className = 'bk' ;
+					else kruskal_row.className = 'rowstyle' ;
+					document.getElementById(kruskal_coli).appendChild(kruskal_row);
+					if(u==1)document.getElementById(kruskal_rowid).innerHTML = '<span>'+ '==>'+'</span>' ;
+					else if(u==2)document.getElementById(kruskal_rowid).innerHTML = kruskal_point[i][u-1] ;	
+					else document.getElementById(kruskal_rowid).innerHTML = kruskal_point[i][u] ;
 				}
 		}
 	//--------------------------------------------------------------	
+}
+
+function image(value) {
+	
+	table(value,false) ;
+	
+		var start = 0; 
+    	var end = 0;
+      	start = new Date().getTime(); //測試程式開始時間
+      		Kruskal() ;
+      	end = new Date().getTime();//測試程式結束時間
+      	kruskal_cpu.push( (end-start)/1000 ) ;
+
+      	start = new Date().getTime(); //測試程式開始時間
+      		Prim() ;
+      	end = new Date().getTime();//測試程式結束時間
+      	prim_cpu.push( (end-start)/1000 ) ;
+
+}
+function image_go() {
+
+	kruskal_cpu = [] ;
+	prim_cpu = [] ;
+	image(0);
+	image(0.01);
+	image(0.1);
+	image(0.75);
+	image(0.9);
+	drawChart();
+	document.getElementById('compare_text').innerHTML = '<span>'+"Kruskal演算法"+'</span>'+'<br>' +"d[0] = "+ kruskal_cpu[0]+'<br>'+
+																				"d[0.01] = " +kruskal_cpu[1]+'<br>'+
+																				"d[0.1] = " +kruskal_cpu[2]+ '<br>'+
+																				"d[0.75] = "+ kruskal_cpu[3]+'<br>'+
+																				"d[0.9] = "+kruskal_cpu[4]+'<br>'+'<br>'+
+														'<span>'+"Prim演算法"+'</span>'+'<br>'    +"d[0] = "+ prim_cpu[0]+'<br>'+
+																				"d[0.01] = " +prim_cpu[1]+'<br>'+
+																				"d[0.1] = " +prim_cpu[2]+ '<br>'+
+																				"d[0.75] = "+ prim_cpu[3]+'<br>'+
+																				"d[0.9] = "+prim_cpu[4]+'<br>';
 }

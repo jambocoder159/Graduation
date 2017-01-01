@@ -5,6 +5,7 @@
 <meta name="Description" content="" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="Spt_Css.css">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="Spt_Js.js"></script>
 <title>Spanning Tree</title>
@@ -12,38 +13,51 @@
 
 <body>
 	<div class="center">
+		<div class="w100">
+			<div class="text_input" id="text_input">
+				<label>範圍</label><input type="text" id="range" value="50">
+				<label>數量</label><input type="text" id="amount" value="100" >
+				<label>密集度</label><input type="text" id="density" value="0.7" >
+				<input type="button" name="" value="產生表格" onclick="table(9999,true)">
+			</div>
 
-		<div class="text_input" id="text_input">
-			<label>範圍</label><input type="text" id="range" value="50">
-			<label>數量</label><input type="text" id="amount" >
-			<input type="button" name="" value="產生表格" onclick="table()">
-		</div>
+			<div class="abgne_tab">
+				<ul class="tabs">
+					<li><a href="#tab1">距離資料</a></li>
+					<li><a href="#tab2">Prim</a></li>
+					<li><a href="#tab3">Kruskal</a></li>
+					<li><a href="#tab4">比較圖表</a></li>
+				</ul>
 
-		<div class="abgne_tab">
-			<ul class="tabs">
-				<li><a href="#tab1">距離資料</a></li>
-				<li><a href="#tab2">Prim</a></li>
-				<li><a href="#tab3">Kruskal</a></li>
-			</ul>
+				<div class="tab_container">
+					<div id="tab1" class="tab_content">
+						
 
-			<div class="tab_container">
-				<div id="tab1" class="tab_content">
-					
-
-				</div>
-				<div id="tab2" class="tab_content">
-					
-
-
-				</div>
-				<div id="tab3" class="tab_content">
-					
+					</div>
+					<div id="tab2" class="tab_content tab_content_center">
+						
 
 
+					</div>
+					<div id="tab3" class="tab_content tab_content_center">
+						
+
+
+					</div>
+					<div id="tab4" class="tab_content tab_content_center">
+
+						<div id="button1">
+							<input type="button" name="" onclick="image_go()" value="執行">
+							<div id="compare_text">	
+								<span>此頁面將d(edges/(total possible edges)固定為Moodle上所指定的數值，但可自由指定數量，點及執行開始。</span>
+							</div>
+						</div>	
+						<div id="compare"></div>
+						
+					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
 </body>
 </html>
