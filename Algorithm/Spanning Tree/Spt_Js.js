@@ -99,14 +99,13 @@ function table() {    //產生表格家排序
 				}
 		}
 	
+	//-----------------------------------------------------------------
+	distance_table.sort(function(a,b){return a[2]-b[2]});
+	Kruskal();
+	Prim();
 	$('.colstyle').addClass('colstyle');
 	$('.rowstyle').addClass('rowstyle');
 	$('#container').addClass('container');
-	//-----------------------------------------------------------------
-	distance_table.sort(function(a,b){return a[2]-b[2]});
-	console.table(distance_table);
-	Kruskal();
-	Prim();
 }
 
 function ranges_num(range) { //隨機亂數
@@ -175,14 +174,7 @@ function Prim() {  //Prim演算法
 					document.getElementById(prim_rowid).innerHTML = prim_point[i][u] ;
 				}
 		}
-	
-	$('.colstyle').addClass('colstyle');
-	$('.rowstyle').addClass('rowstyle');
-	$('#container').addClass('container');
 	//--------------------------------------------------------------
-
-	console.table(primpre_point);
-	console.table(prim_point);
 
 }
 
@@ -235,13 +227,5 @@ function Kruskal() {  //Kruskal演算法
 					document.getElementById(kruskal_rowid).innerHTML = kruskal_point[i][u] ;
 				}
 		}
-	
-	$('.colstyle').addClass('colstyle');
-	$('.rowstyle').addClass('rowstyle');
-	$('#container').addClass('container');
-	//--------------------------------------------------------------
-
-	console.log(mms_num);
-	console.table(kruskal_point);
-	
+	//--------------------------------------------------------------	
 }
